@@ -1,0 +1,116 @@
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table td, table th {
+  border: 1px solid #ddd;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table th, tfoot td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background-color: rgb(36, 66, 60);
+  color: white;
+  border-radius: 5px;
+  width: 50px;
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold
+}
+
+.search {
+  font-size: 15px;
+  padding-bottom: 3px;
+  display: flex;
+}
+
+.searchInput {
+  margin-left: 7px;
+}
+
+.searchInputColumn {
+  width: 30px;
+}
+
+.headerSelected {
+  color: rgb(255, 184, 28)
+}
+
+.trashIcon {
+  cursor: pointer;
+  padding: 4px 0px 0px 8px;
+}
+
+.year {
+  font-size: 15px;
+  padding: 1px 9px 0 5px;
+  display: flex;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: 69px;
+}
+
+.menu > li {
+  margin: 0;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: white;
+}
+
+.menu > li:hover {
+  background-color: lightgray;
+}
+
+.menu > li > button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 5px;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dpi {
+  margin-left: 10px;
+}
+
+.cboxDiv {
+  float: left;
+  display: flex;
+  margin-top: .23em;
+}
+
+.cbox {
+  margin-top: 2px;
+  cursor: pointer;
+}

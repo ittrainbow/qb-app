@@ -1,0 +1,16 @@
+.header {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.greeting {
+  padding: .1em 10px 0 10px;
+  background-color: #24423c;
+  color: white;
+  height: 21px;
+  border-radius: 5px;
+  width: 200px;
+  border: 1px solid black;
+  margin-right: 5px
+}

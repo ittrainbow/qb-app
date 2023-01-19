@@ -1,0 +1,44 @@
+.profile {
+  height: 80vh;
+  width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile__container {
+  font-size: 15px;
+  width: 180px;
+  height: 230px;
+  border-radius: 10px;
+  flex-direction: column;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 30px;
+}
+
+.input__container {
+  margin: 10px 0 82px;
+  width: 128px;
+  text-align: center;
+  padding: 10px;
+}
+
+.profile__btn {
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 10px;
+  border: none;
+  background-color: #bbb;
+}
+
+.profile__btn:active {
+  background-color: #aaa;
+  transition: .2s;
+  border-color: #666;
+}
+
+.pointer {
+  cursor: pointer;
+  color: black;
+}
