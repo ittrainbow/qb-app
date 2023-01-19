@@ -1,0 +1,22 @@
+.dashboard {
+  height: 80vh;
+  width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard__container {
+  font-size: 15px;
+  width: 180px;
+  height: 230px;
+  border-radius: 10px;
+  flex-direction: column;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 30px;
+}
+
+.profileDataDiv {
+  margin-bottom: 50px;
+}

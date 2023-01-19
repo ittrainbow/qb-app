@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  font-size: 14px;
+  padding: 10px;
 }
 
 .App-logo {
@@ -35,4 +37,47 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.button, .buttonShort, .buttonBig {
+  margin: 0 5px 5px 0;
+  background-color: #ddd;
+  border-radius: 5px;
+  border: 1px solid #555;
+  height: 24px;
+  cursor: pointer;
+}
+
+.button {
+  width: 80px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.buttonShort {
+  width: 50px;
+}
+
+.buttonBig {
+  width: 150px;
+  height: 35px;
+  margin: 0 0 5px;
+}
+
+.w50 {
+  width: 500px;
+  display: flex;
+  float: left;
+}
+
+.button:active, .buttonShort:active, .buttonBig:active {
+  background-color: #bbb;
+  border: 1px solid #000;
+  box-shadow: 1px 1px #777;
+}
+
+.buttonDiv {
+  display: flex;
 }
