@@ -8,7 +8,7 @@ import AppRouter from './components/AppRouter/AppRouter'
 import './App.css'
 
 export const Context = React.createContext()
-export const initialContext = { dpi: false, year: 2022, name: '', email: '' }
+export const initialContext = { dpi: false, year: 2022, name: '', email: '', search: '' }
 export const initialCountdown = 60
 
 const App = () => {

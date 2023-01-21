@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useContext } from 'react'
+import React, { useMemo, useState, useContext, useEffect } from 'react'
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table'
 import { doc, setDoc } from 'firebase/firestore'
 
@@ -12,7 +12,7 @@ import { Drop } from '../../UI/Drop/Drop'
 
 const Table = () => {
   const { context, setContext, loadedContext } = useContext(Context)
-  const { dpi, year } = context
+  const { dpi, year, search } = context
   const [loading, setLoading] = useState(false)
   const columns = useMemo(() => COLUMNS, [])
   const seasons = useMemo(() => career, [])
@@ -43,6 +43,12 @@ const Table = () => {
   )
 
   const { globalFilter } = state
+
+  useEffect(() => {
+    setGlobalFilter(search)
+    return
+    // eslint-disable-next-line
+  }, [year])
 
   const dpiHandler = () => setContext({ ...context, dpi: !dpi })
 
@@ -102,7 +108,7 @@ const Table = () => {
             DPIs as completions (endzone DPI as TDs){' '}
             <button
               className="buttonShort"
-              disabled={!auth.currentUser || !canSave}
+              disabled={!loadedContext || !canSave}
               onClick={() => saveHandler()}
             >
               Save
