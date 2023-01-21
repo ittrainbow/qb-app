@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useAsyncDebounce } from 'react-table'
-import { Trash } from 'react-bootstrap-icons'
 
 import './table.css'
+import { Context } from '../../App'
 
-const GlobalFilter = ({ filter, setFilter }) => {
+export const GlobalFilter = ({ filter, setFilter }) => {
   const [value, setValue] = useState(filter)
+  const { context, setContext } = useContext(Context)
+  const { search } = context
 
-  const onChangeHandler = useAsyncDebounce((value) => {
-    setFilter(value || undefined)
-  }, 100)
+  const onChangeHandler = useAsyncDebounce((search) => {
+    setContext({ ...context, search })
+  }, 50)
+
+  useEffect(() => {
+    setFilter(search)
+    return
+    // eslint-disable-next-line
+  }, [search])
 
   return (
     <div className="search">
@@ -25,17 +33,15 @@ const GlobalFilter = ({ filter, setFilter }) => {
           }}
         ></input>
       </div>
-      <div>
-        <Trash
-          className="trashIcon"
-          onClick={() => {
-            setValue('')
-            onChangeHandler('')
-          }}
-        />
+      <div
+        className="trashIcon"
+        onClick={() => {
+          setValue('')
+          onChangeHandler('')
+        }}
+      >
+        X
       </div>
     </div>
   )
 }
-
-export default GlobalFilter

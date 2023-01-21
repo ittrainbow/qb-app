@@ -1,60 +1,32 @@
-import React, { useMemo, useState, useContext } from 'react'
+import React, { useMemo, useState, useContext, useEffect } from 'react'
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from 'react-table'
-import { setDoc, doc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 
+import career from './json/career.json'
+
+import { Loader } from '../../UI'
 import { auth, db } from '../../db'
-import Loader from '../Loader/Loader'
-import { GROUPED_COLUMNS } from './columns'
-import RODGERS from './RODGERS.json'
-import GlobalFilter from './GlobalFilter'
-import ColumnFilter from './ColumnFilter'
-import { calc } from './calculator'
 import { Context } from '../../App'
-
-const firstYear = 2021
-const initialState = { pageIndex: 0, pageSize: 18 }
+import { COLUMNS, GlobalFilter, navHelper, saveHelper, calcHelper } from './index.js'
+import { Drop } from '../../UI/Drop/Drop'
 
 const Table = () => {
-  const [open, setOpen] = useState(false)
+  const { context, setContext, loadedContext } = useContext(Context)
+  const { dpi, year, search } = context
   const [loading, setLoading] = useState(false)
-  const [toSave, setToSave] = useState(false)
-  const { context, setContext } = useContext(Context)
-  const { dpi } = context
-  const columns = useMemo(() => GROUPED_COLUMNS, [])
-  const data = useMemo(() => RODGERS, [])
+  const columns = useMemo(() => COLUMNS, [])
+  const seasons = useMemo(() => career, [])
+  const { firstSeason, lastSeason } = navHelper(seasons)
+  const canSave = saveHelper(context, loadedContext)
+  const data = seasons[year]
 
-  const defaultColumn = useMemo(() => {
-    return {
-      filter: ColumnFilter
-    }
-  }, [])
-
-  const openHandler = () => {
-    setOpen(!open)
-  }
-
-  const saveDPIHandler = async () => {
-    setLoading(true)
-    try {
-      await setDoc(doc(db, 'users', auth.currentUser.uid), context)
-    } catch (error) {
-      console.error(error)
-    }
-    setToSave(!toSave)
-    setLoading(false)
-  }
+  const initialState = { pageSize: 20 }
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     page,
-    nextPage,
-    canNextPage,
-    previousPage,
-    canPreviousPage,
-    gotoPage,
-    pageCount,
     prepareRow,
     state,
     setGlobalFilter
@@ -62,7 +34,6 @@ const Table = () => {
     {
       columns,
       data,
-      defaultColumn,
       initialState
     },
     useGlobalFilter,
@@ -71,73 +42,75 @@ const Table = () => {
     usePagination
   )
 
-  const { globalFilter, pageIndex } = state
+  const { globalFilter } = state
 
-  const pickerHandler = (year) => {
-    setOpen(false)
-    gotoPage(year)
+  useEffect(() => {
+    setGlobalFilter(search)
+    return
+    // eslint-disable-next-line
+  }, [year])
+
+  const dpiHandler = () => setContext({ ...context, dpi: !dpi })
+
+  const saveHandler = async () => {
+    setLoading(true)
+    try {
+      await setDoc(doc(db, 'users', auth.currentUser.uid), context)
+    } catch (error) {
+      console.error(error)
+    }
+    setLoading(false)
   }
 
-  const dpiHandler = () => {
-    setToSave(!toSave)
-    setContext({
-      ...context,
-      dpi: !dpi
-    })
-  }
-
-  const dropMenu = () => {
-    return (
-      <div className="dropdown">
-        <button onClick={openHandler} className="button">
-          Pick Year
-        </button>
-        {open ? (
-          <ul className="menu">
-            <li className="menu-item">
-              <button onClick={() => pickerHandler(0)}>{firstYear}</button>
-            </li>
-            <li className="menu-item">
-              <button onClick={() => pickerHandler(pageCount - 1)}>{firstYear + 1}</button>
-            </li>
-          </ul>
-        ) : null}
-      </div>
-    )
-  }
+  const yearHandler = (year) => setContext({ ...context, year })
 
   const table = () => {
     return (
       <>
         <div className="buttonDiv">
-          <button className="buttonShort" disabled={!canPreviousPage} onClick={() => gotoPage(0)}>
-            {0 + firstYear}
+          <button
+            className="buttonShort"
+            disabled={year === firstSeason}
+            onClick={() => yearHandler(firstSeason)}
+          >
+            {firstSeason}
           </button>
           <button
             className="buttonShort"
-            disabled={!canPreviousPage}
-            onClick={() => previousPage()}
+            disabled={year === firstSeason}
+            onClick={() => yearHandler(year - 1)}
           >
             Prev
           </button>
-          <div className="year">{pageIndex + firstYear} </div>
-          <button className="buttonShort" disabled={!canNextPage} onClick={() => nextPage()}>
+          <div className="year">{year} </div>
+          <button
+            className="buttonShort"
+            disabled={year === lastSeason}
+            onClick={() => yearHandler(year + 1)}
+          >
             Next
           </button>
           <button
             className="buttonShort"
-            disabled={!canNextPage}
-            onClick={() => gotoPage(pageCount - 1)}
+            disabled={year === lastSeason}
+            onClick={() => yearHandler(lastSeason)}
           >
-            {pageCount - 1 + firstYear}
+            {lastSeason}
           </button>
-          <div>{dropMenu()}</div>
+
+          <div>
+            <Drop />
+          </div>
           <div className="dpi">
             <div className="cboxDiv">
               <input type="checkbox" className="cbox" checked={dpi} onChange={() => dpiHandler()} />
             </div>
             DPIs as completions (endzone DPI as TDs){' '}
-            <button className="buttonShort" disabled={!toSave} onClick={() => saveDPIHandler()}>
+            <button
+              className="buttonShort"
+              disabled={!loadedContext || !canSave}
+              onClick={() => saveHandler()}
+            >
               Save
             </button>
           </div>
@@ -166,7 +139,7 @@ const Table = () => {
               return row.original.week !== 'SZN' ? (
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
-                    return <td {...cell.getCellProps()}>{calc(cell, row, dpi)}</td>
+                    return <td {...cell.getCellProps()}>{calcHelper(cell, row, dpi)}</td>
                   })}
                 </tr>
               ) : null
@@ -180,7 +153,7 @@ const Table = () => {
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>
-                        <span className="bold">{calc(cell, row, dpi)}</span>
+                        <span className="bold">{calcHelper(cell, row, dpi)}</span>
                       </td>
                     )
                   })}

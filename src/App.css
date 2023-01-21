@@ -72,6 +72,10 @@
   float: left;
 }
 
+.mt5 {
+  margin-top: 5px;
+}
+
 .button:active, .buttonShort:active, .buttonBig:active {
   background-color: #bbb;
   border: 1px solid #000;

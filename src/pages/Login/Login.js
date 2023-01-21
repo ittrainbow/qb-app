@@ -18,7 +18,8 @@ export const Login = () => {
     if (loading) return
     if (user) navigate('/dashboard')
     if (error) alert(error)
-    //eslint-disable-next-line
+    return
+    // eslint-disable-next-line
   }, [user, loading])
 
   const emailInput = (email) => {
