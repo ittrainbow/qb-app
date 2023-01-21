@@ -1,5 +1,3 @@
-import { format } from 'date-fns'
-
 export const COLUMNS = [
   {
     id: 1,
@@ -10,9 +8,6 @@ export const COLUMNS = [
         header: 'Year',
         footer: 'Year',
         accessor: 'year',
-        cell: ({ value }) => {
-          return format(new Date(value), 'dd/mm/yy')
-        },
         disableSortBy: true,
         disableFilters: true
       },
