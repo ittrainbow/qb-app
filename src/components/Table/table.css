@@ -114,3 +114,7 @@ table th, tfoot td {
   margin-top: 2px;
   cursor: pointer;
 }
+
+.dpi {
+  padding-left: 30px;
+}

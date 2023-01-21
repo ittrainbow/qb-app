@@ -15,6 +15,7 @@ export const Reset = () => {
   useEffect(() => {
     if (loading) return
     if (user) navigate('/')
+    // eslint-disable-next-line
   }, [user, loading])
 
   return (

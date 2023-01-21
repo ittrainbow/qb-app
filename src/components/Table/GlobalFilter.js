@@ -4,7 +4,7 @@ import { Trash } from 'react-bootstrap-icons'
 
 import './table.css'
 
-const GlobalFilter = ({ filter, setFilter }) => {
+export const GlobalFilter = ({ filter, setFilter }) => {
   const [value, setValue] = useState(filter)
 
   const onChangeHandler = useAsyncDebounce((value) => {
@@ -37,5 +37,3 @@ const GlobalFilter = ({ filter, setFilter }) => {
     </div>
   )
 }
-
-export default GlobalFilter

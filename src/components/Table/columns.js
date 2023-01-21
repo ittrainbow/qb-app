@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
-import { ColumnFilter } from './ColumnFilter'
 
-export const GROUPED_COLUMNS = [
+export const COLUMNS = [
   {
     id: 1,
     header: 'Game',
@@ -21,7 +20,6 @@ export const GROUPED_COLUMNS = [
         header: 'Week',
         footer: 'Week',
         accessor: 'week',
-        disableSortBy: true,
         disableFilters: true
       },
       {

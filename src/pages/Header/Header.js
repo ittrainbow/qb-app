@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { clearUser } from '../../redux/actions'
 import { auth, logout } from '../../db/'
+import { Context } from '../../App'
 import './Header.css'
 
 export const Header = () => {
   const [user] = useAuthState(auth)
-  const { name } = useSelector((state) => state.user)
+  const { context, countdown, setCountdown } = useContext(Context)
+  const { name } = context
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const cdown = setInterval(() => setCountdown(countdown - 1), 1000)
+      return clearInterval(cdown)
+    }
+    // eslint-disable-next-line
+  }, [countdown])
 
   const loggedInButtons = () => {
     return (
@@ -41,13 +48,14 @@ export const Header = () => {
 
   const logOutHandler = () => {
     logout()
-    dispatch(clearUser())
     navigate('/')
   }
 
   return (
     <div className="header">
-      <div className="greeting">{user ? `Logged in as ${name}` : 'Please Log In'}</div>
+      <div className="greeting">
+        {user ? `Logged in as ${name ? name : 'fetching ...'}` : 'Please Log In'}
+      </div>
       <button className="button" onClick={() => navigate('/')}>
         Table
       </button>
