@@ -5,6 +5,7 @@ import { getDoc, doc } from 'firebase/firestore'
 import { auth, db } from './db/'
 
 import AppRouter from './components/AppRouter/AppRouter'
+
 import './App.css'
 
 export const Context = React.createContext()
@@ -61,7 +62,6 @@ const App = () => {
           setContext,
           initialContext,
           loadedContext,
-          setLoadedContext,
           countdown,
           setCountdown
         }}

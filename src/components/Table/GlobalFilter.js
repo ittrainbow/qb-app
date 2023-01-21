@@ -22,8 +22,9 @@ export const GlobalFilter = ({ filter, setFilter }) => {
   return (
     <div className="search">
       <div>Search:</div>
-      <div className="searchInput">
+      <div>
         <input
+          className="searchInput"
           value={value || ''}
           onChange={(e) => {
             const { value } = e.target

@@ -4,6 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logout } from '../../db/'
 import { Context } from '../../App'
+
 import './Header.css'
 
 export const Header = () => {
