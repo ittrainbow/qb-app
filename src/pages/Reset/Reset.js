@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { auth } from '../../db/firebase'
 import { sendPasswordReset } from '../../db/auth'
+
 import './Reset.css'
 
 export const Reset = () => {

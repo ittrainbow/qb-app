@@ -1,14 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../../db'
 import './Login.css'
 
+const initialState = {
+  email: '',
+  emailValid: false,
+  password: ''
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'EMAIL':
+      return { ...state, email: action.payload }
+    case 'EMAIL_VALID':
+      return { ...state, emailValid: action.payload }
+    case 'PASSWORD':
+      return { ...state, password: action.payload }
+    default:
+      return state
+  }
+}
+
 export const Login = () => {
-  const [email, setEmail] = useState('')
-  const [emailValid, setEmailValid] = useState(false)
-  const [password, setPassword] = useState('')
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { email, emailValid, password } = state
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
 
@@ -22,11 +40,12 @@ export const Login = () => {
     // eslint-disable-next-line
   }, [user, loading])
 
-  const emailInput = (email) => {
+  const emailInputHandler = (email) => {
     const checkEmailValid = /\S+@\S+\.\S+/.test(email)
 
-    setEmail(email)
-    setEmailValid(checkEmailValid)
+    dispatch({ type: 'EMAIL', payload: email })
+    dispatch({ type: 'EMAIL_VALID', payload: checkEmailValid })
+    console.log(emailValid)
   }
 
   return (
@@ -34,16 +53,16 @@ export const Login = () => {
       <div className="login__container">
         <input
           type="text"
-          className="login__textBox"
+          className={emailValid ? 'login__textBox' : 'login__textBox email__invalid'}
           value={email}
-          onChange={(e) => emailInput(e.target.value)}
+          onChange={(e) => emailInputHandler(e.target.value)}
           placeholder="E-mail"
         />
         <input
           type="password"
           className="login__textBox"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder="Password"
         />
         <button

@@ -16,9 +16,9 @@ const Table = () => {
   const [loading, setLoading] = useState(false)
   const columns = useMemo(() => COLUMNS, [])
   const seasons = useMemo(() => career, [])
+  const data = seasons[year]
   const { firstSeason, lastSeason } = navHelper(seasons)
   const canSave = saveHelper(context, loadedContext)
-  const data = seasons[year]
 
   const initialState = { pageSize: 20 }
 

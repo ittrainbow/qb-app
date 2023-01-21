@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 
 import './Profile.css'
+
 import { auth, db } from '../../db'
 import { Loader, Drop } from '../../UI'
 import { Context } from '../../App'
