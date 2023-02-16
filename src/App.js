@@ -32,20 +32,21 @@ const App = () => {
   }
 
   const fetchUserName = async () => {
-    if (user)
+    if (user) {
+      const { displayName, email, uid } = user
       try {
-        await getDoc(doc(db, 'users', auth.currentUser.uid)).then((response) => {
+        await getDoc(doc(db, 'users', uid)).then((response) => {
           if (response.data()) {
             const { name, year, dpi, email } = response.data()
             setContextOnInit({ ...context, name, year, dpi, email })
           } else {
-            const { displayName, email } = auth.currentUser
             setContextOnInit({ ...initialContext, name: displayName, email })
           }
         })
       } catch (error) {
         console.error(error)
       }
+    }
   }
 
   useEffect(() => {
