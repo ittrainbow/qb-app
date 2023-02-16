@@ -17,13 +17,10 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'EMAIL':
       return { ...state, email: action.payload }
-
     case 'PASSWORD':
       return { ...state, password: action.payload }
-
     case 'NAME':
       return { ...state, name: action.payload }
-
     default:
       return state
   }
