@@ -1,4 +1,4 @@
 export * from './columns'
-export * from './globalFilter'
+export * from './GlobalFilter'
 export * from './helpers'
 export * from './Table'

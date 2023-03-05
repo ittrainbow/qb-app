@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, doc } from 'firebase/firestore'
+import Dice from 'react-dice-roll'
 
 import { auth, db } from './db/'
 
